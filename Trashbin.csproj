@@ -8,9 +8,10 @@
     <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
-    <AssemblyTitle>Trashbin</AssemblyTitle>
+    <Version>2.0.0.0</Version>
     <Product>Trashbin</Product>
-    <Copyright>Copyright © 2025</Copyright>
+    <Description>Delete custom songs for Synth Riders</Description>
+    <Copyright>Copyright ©  2025</Copyright>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>
     <Version>2.0.0.0</Version>
@@ -26,6 +27,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SRModCore\**" />
+    <EmbeddedResource Remove="SRModCore\**" />
+    <None Remove="SRModCore\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\bin.png" />
   </ItemGroup>
 
@@ -36,6 +43,9 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(SynthRidersDir)\MelonLoader\net6\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppInterop.Runtime">
       <HintPath>$(SynthRidersDir)\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
@@ -79,6 +89,10 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".\SRModCore\SRModCore\SRModCore.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

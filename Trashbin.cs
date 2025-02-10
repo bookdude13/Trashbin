@@ -10,47 +10,56 @@ using Trashbin.Actions;
 using UnityEngine.Events;
 using Stream = System.IO.Stream;
 using Directory = System.IO.Directory;
+using SRModCore;
+using static MelonLoader.MelonLogger;
+using Il2CppTMPro;
+using Il2Cppcom.Kluge.XR.UI;
 
 namespace Trashbin
 {
     public class Trashbin : MelonMod
     {
-        public static Trashbin? cs_instance;
+        //public static Trashbin? cs_instance;
+        public static Trashbin Instance { get; private set; }
+        private SRLogger logger;
+        //Timer warnTimer = new(2000);
 
-        Timer warnTimer = new(2000);
+        public override void OnInitializeMelon()
+        {
+            base.OnInitializeMelon();
+
+            logger = new MelonLoggerWrapper(LoggerInstance);
+            Instance = this;
+        }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
-            var mainMenuScenes = new List<string>()
-            {
-                "01.The Room",
-                "02.The Void",
-                "03.Roof Top",
-                "04.The Planet",
-                "SongSelection"
-            };
             base.OnSceneWasInitialized(buildIndex, sceneName);
-            MelonLogger.Msg(sceneName);
 
-            if (mainMenuScenes.Contains(sceneName)) ButtonInit();
+            MelonLogger.Msg(sceneName);
+            SRScene scene = new SRScene(sceneName);
+
+            if (scene.SceneType == SRScene.SRSceneType.MAIN_MENU)
+            {
+                ButtonInit(logger);
+            }
         }
 
-        private static void ButtonInit()
+        private static void ButtonInit(SRLogger logger)
         {
-            MelonLogger.Msg("Adding button...");
+            logger.Msg("Adding button...");
             var cs_instance = new Trashbin();
 
-
             // Initialise new button
-            GameObject songSelection = GameObject.Find("SongSelection");
-            Transform controls = songSelection.transform.Find("SelectionSongPanel/CentralPanel/Song Selection/VisibleWrap/Main Background Image/DetailsPanel(Right)/Sectional BG - Details/Controls-Buttons");
+            GameObject songSelection = GameObject.Find("Z-Wrap/SongSelection");
+            Transform controls = songSelection.transform.Find("SelectionSongPanel/CentralPanel/Song Selection/VisibleWrap/Canvas/DetailsPanel(Right)/Sectional BG - Details/Controls-Buttons");
             Transform blacklistButton = controls.Find("Blacklist");
             GameObject deleteButton = GameObject.Instantiate(blacklistButton.gameObject);
             deleteButton.transform.name = "DeleteSongButton";
             deleteButton.transform.SetParent(controls);
 
             // Change button icon
-            Transform deleteIcon = deleteButton.transform.Find("Icon");
+            Transform deleteIcon = deleteButton.transform.Find("Outer Background/Inner Background/Icon");
             Texture2D iconTexture = new Texture2D(2, 2);
             Assembly assembly = Assembly.GetExecutingAssembly();
             using (Stream? binStream = assembly.GetManifestResourceStream("Trashbin.Resources.bin.png"))
@@ -63,7 +72,7 @@ namespace Trashbin
                 }
                 else
                 {
-                    MelonLogger.Msg("Could not load trashbin image file");
+                    logger.Msg("Could not load trashbin image file");
                 }
             }
 
@@ -75,8 +84,6 @@ namespace Trashbin
             deleteIcon.GetComponent<Image>().sprite = iconSprite;
             //deleteIcon.localScale = new Vector3(0.15f, 0.15f, 1);
 
-
-            
             // Adjust position of button
             Game_InfoProvider gipInstance = Game_InfoProvider.s_instance;
             TwitchAuthSettings twitchAS = gipInstance.twitchAuth;
@@ -86,49 +93,57 @@ namespace Trashbin
             // check if Twitch panel is enabled
             if (twitchAS.Channel != "")
             {
-                deleteButton.transform.localPosition = new Vector3(1.2f, 4.2102f, 0);
+                deleteButton.transform.localPosition = new Vector3(-0.3f, 4.2102f, 0);
             }
             else //if twitch credentials not setup take same position as blacklist button
             {
-                deleteButton.transform.localPosition = new Vector3(0.7f, 4.2102f, 0);
+                deleteButton.transform.localPosition = new Vector3(-0.8f, 4.2102f, 0);
             }
 
-            // TODO Change tooltip text 
-            Transform tooltip = deleteButton.transform.Find("Tooltip");
-            //Transform tooltipText = tooltip.Find("Text");
-            //tooltipText.GetComponentInChildren<LocalizationHelper>().enabled = false;
-            //tooltipText.GetComponentInChildren<TMP_Text>().text = "Delete current song";
+            //UnityUtil.LogComponentsRecursive(logger, deleteButton.transform.parent);
+
+            // Crunch the spectrograph in the song select panel to make room for the button
+            var spectrum = controls.Find("Visualizer Scale Wrap").GetComponent<RectTransform>();
+            //UnityUtil.LogComponentsRecursive(logger, spectrum.parent);
+            //spectrum.position += new Vector3(paddingLeft, 0f, 0f);
+            spectrum.sizeDelta -= new Vector2(1f, 0f);
 
             // Add event to button
-            var buttonEvent = deleteButton.gameObject.GetComponent<SynthUIToggle>();
-            buttonEvent.WhenClicked = new UnityEvent();            
+            var buttonUIToggle = deleteButton.gameObject.GetComponent<HexagonIconButton>();
+            buttonUIToggle.WhenClicked = new UnityEvent();
             deleteButton.SetActive(true);
 
-            // TODO add toggle for confirmation prompt
-            // buttonEvent.WhenClicked.AddListener((UnityAction)Delete.DeleteSong);
-            buttonEvent.WhenClicked.AddListener((UnityAction)Delete.VerifyDelete);
-            MelonLogger.Msg("Button added");
+            buttonUIToggle.WhenClicked.AddListener((UnityAction)Delete.VerifyDelete);
 
-            cs_instance.AddEvents(); // add new events to the Two Buttons prompt's continue/cancel buttons
+            //UnityUtil.LogComponentsRecursive(logger, deleteButton.transform);
+            // TODO set up fake localization for tooltip. 
+            //buttonUIToggle.SetText("Delete current song");
+            buttonUIToggle.TooltipLocalizationKey = string.Empty;
+
+            logger.Msg("Button added");
+
+            // add new events to the Two Buttons prompt's continue/cancel buttons
+            cs_instance.AddEvents(logger);
         }
 
-        public void AddEvents()
+        public void AddEvents(SRLogger logger)
         {
             try
             {
                 SongSelectionManager ssmInstance = SongSelectionManager.GetInstance;
                 GameObject TwoButtonsPromptWrap = ssmInstance.TwoButtonsPromptWrap;
+
                 Transform continueBtnT = TwoButtonsPromptWrap.transform.Find("continue button");
                 Component[] components = continueBtnT.GetComponents<Component>();
+
                 var SynthButton = continueBtnT.gameObject.GetComponent<SynthUIButton>();
                 SynthButton.WhenClicked = new();
                 SynthButton.WhenClicked.AddListener((UnityAction)Delete.DeleteSong);
             }
-
             catch (System.NullReferenceException ex)
             {
-                MelonLogger.Msg("Null reference exception: " + ex.Message);
-                MelonLogger.Msg("Stack Trace: " + ex.StackTrace);
+                logger.Error("Null reference exception: " + ex.Message);
+                logger.Error("Stack Trace: " + ex.StackTrace);
             }
         }
 
