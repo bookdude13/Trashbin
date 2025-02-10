@@ -6,15 +6,14 @@ namespace Trashbin.Harmony
     [HarmonyPatch(typeof(SongSelectionManager), nameof(SongSelectionManager.OpenPromptPanel))]
     public class Patch_SongSelectionManager_OpenPromptPanel
     {
-        public static bool Prefix(SongSelectionManager __instance, int promptTarget)
+        public static void Prefix(SongSelectionManager __instance, int promptTarget)
         {
             var localization = __instance.promptLabel;
 
             if (promptTarget == 99)
             {
                 // Handle as our own custom prompt; override existing logic
-                Trashbin.Instance.LoggerInstance.Msg("Prompt target 99 opened");
-                
+
                 // Don't allow localization to change the text we set
                 localization.enabled = false;
 
@@ -26,7 +25,6 @@ namespace Trashbin.Harmony
                 {
                     localization.m_UnityUIText.text = prompt;
                 }
-                //return false;
             }
             else
             {
@@ -35,8 +33,6 @@ namespace Trashbin.Harmony
                 // Make sure string is updated away from what we set
                 localization.RefreshTextString();
             }
-
-            return true;
         }
     }
 }

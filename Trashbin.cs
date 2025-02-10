@@ -100,12 +100,8 @@ namespace Trashbin
                 deleteButton.transform.localPosition = new Vector3(-0.8f, 4.2102f, 0);
             }
 
-            //UnityUtil.LogComponentsRecursive(logger, deleteButton.transform.parent);
-
             // Crunch the spectrograph in the song select panel to make room for the button
             var spectrum = controls.Find("Visualizer Scale Wrap").GetComponent<RectTransform>();
-            //UnityUtil.LogComponentsRecursive(logger, spectrum.parent);
-            //spectrum.position += new Vector3(paddingLeft, 0f, 0f);
             spectrum.sizeDelta -= new Vector2(1f, 0f);
 
             // Add event to button
@@ -115,7 +111,6 @@ namespace Trashbin
 
             buttonUIToggle.WhenClicked.AddListener((UnityAction)Delete.VerifyDelete);
 
-            //UnityUtil.LogComponentsRecursive(logger, deleteButton.transform);
             // TODO set up fake localization for tooltip. 
             //buttonUIToggle.SetText("Delete current song");
             buttonUIToggle.TooltipLocalizationKey = string.Empty;
