@@ -6,6 +6,15 @@
     <Nullable>enable</Nullable>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <AssemblyTitle>Trashbin</AssemblyTitle>
+    <Product>Trashbin</Product>
+    <Copyright>Copyright © 2025</Copyright>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <Version>2.0.0.0</Version>
+    <SynthRidersDir>C:\Program Files (x86)\Steam\steamapps\common\SynthRiders</SynthRidersDir>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,54 +35,54 @@
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppInterop.Runtime">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppMono.Data.Sqlite">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\Il2CppMono.Data.Sqlite.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Il2CppMono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppNewtonsoft.Json">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\Il2CppNewtonsoft.Json.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Il2CppNewtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppPhotonUnityNetworking">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\Il2CppPhotonUnityNetworking.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Il2CppPhotonUnityNetworking.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppSystem">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\Il2CppSystem.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Il2CppSystem.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppSystem.Data">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\Il2CppSystem.Data.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Il2CppSystem.Data.dll</HintPath>
     </Reference>
     <Reference Include="MelonLoader">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\net6\MelonLoader.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\net6\MelonLoader.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing.Common">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\net6\System.Drawing.Common.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\net6\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\UnityEngine.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>H:\Program Files (x86)\Steam\steamapps\common\SynthRiders_Beta\MelonLoader\Il2CppAssemblies\UnityEngine.UI.dll</HintPath>
+      <HintPath>$(SynthRidersDir)\MelonLoader\Il2CppAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y /d  &quot;$(TargetPath)&quot; &quot;$(SynthDir)\Mods\&quot;" />
+    <Exec Command="xcopy /y /d  &quot;$(TargetPath)&quot; &quot;$(SynthRidersDir)\Mods\&quot;" />
   </Target>
 
 </Project>

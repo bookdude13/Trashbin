@@ -5,9 +5,9 @@
     },
     "SynthRiders": {
       "commandName": "Executable",
-      "executablePath": "H:\\Program Files (x86)\\Steam\\steamapps\\common\\SynthRiders_Beta\\SynthRiders.exe",
+      "executablePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SynthRiders\\SynthRiders.exe",
       "commandLineArgs": "--melonloader.debug --melonloader.launchdebugger",
-      "workingDirectory": "H:\\Program Files (x86)\\Steam\\steamapps\\common\\SynthRiders_Beta"
+      "workingDirectory": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SynthRiders"
     }
   }
 }
