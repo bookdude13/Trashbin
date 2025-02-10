@@ -4,3 +4,6 @@ packages/
 .vs/
 *.sln
 Trashbin/
+
+# Build directory
+build/
