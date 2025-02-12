@@ -33,11 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\bin.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\bin.png" />
+    <EmbeddedResource Include="Resources\bin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
