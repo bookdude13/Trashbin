@@ -60,29 +60,9 @@ namespace Trashbin
 
             // Change button icon
             Transform deleteIcon = deleteButton.transform.Find("Outer Background/Inner Background/Icon");
-            Texture2D iconTexture = new Texture2D(2, 2);
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            using (Stream? binStream = assembly.GetManifestResourceStream("Trashbin.Resources.bin.png"))
-            {
-                if (binStream != null)
-                {
-                    byte[] data = new byte[binStream.Length];
-                    binStream.Read(data, 0, (int)binStream.Length);
-                    iconTexture.LoadImage(data);
-                }
-                else
-                {
-                    logger.Msg("Could not load trashbin image file");
-                }
-            }
-
-            iconTexture.name = "bt-Close-X";
-            Sprite iconSprite = Sprite.Create(iconTexture, new Rect(0, 0.0f, iconTexture.width, iconTexture.height), new Vector2(0.5f, 0.5f));
+            var iconSprite = UnityUtil.CreateSpriteFromAssemblyResource(logger, Assembly.GetExecutingAssembly(), "Trashbin.Resources.bin.png");
             iconSprite.name = "bt-X";
-            Component[] components = deleteButton.GetComponents<Component>();
-            Component[] allComponentsInChildren = deleteButton.GetComponentsInChildren<Component>(true);
             deleteIcon.GetComponent<Image>().sprite = iconSprite;
-            //deleteIcon.localScale = new Vector3(0.15f, 0.15f, 1);
 
             // Adjust position of button
             Game_InfoProvider gipInstance = Game_InfoProvider.s_instance;
