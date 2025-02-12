@@ -6,15 +6,12 @@ using Il2CppNewtonsoft.Json;
 using Il2CppSynth.SongSelection;
 using Il2CppTMPro;
 using System.Timers;
-using Timer = System.Timers.Timer;
 
 namespace Trashbin.Actions
 {
     [RegisterTypeInIl2Cpp]
     public abstract class Delete : MonoBehaviour
     {        
-        Timer warnTimer = new(2000);
-
         public static void VerifyDelete()
         {
             try
@@ -67,11 +64,6 @@ namespace Trashbin.Actions
                 Transform tooltipText = tooltip.Find("Text");
                 tooltipText.GetComponentInChildren<TMP_Text>().text = "Can't delete OST songs";
                 MelonLogger.Msg("Can't delete OST songs");
-                ElapsedEventHandler? TimerEvent = null;
-                // TODO
-                /*warnTimer.Elapsed += new ElapsedEventHandler(TimerEvent);
-                warnTimer.AutoReset = true;
-                warnTimer.Start();*/
             }
         }
 
@@ -217,7 +209,6 @@ namespace Trashbin.Actions
             Transform tooltip = deleteButton.transform.Find("Tooltip");
             Transform tooltipText = tooltip.Find("Text");
             tooltipText.GetComponentInChildren<TMP_Text>().text = "Delete current song";
-            //warnTimer.Stop();
         }
 
     }

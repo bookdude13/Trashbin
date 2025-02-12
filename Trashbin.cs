@@ -19,10 +19,8 @@ namespace Trashbin
 {
     public class Trashbin : MelonMod
     {
-        //public static Trashbin? cs_instance;
         public static Trashbin Instance { get; private set; }
         private SRLogger logger;
-        //Timer warnTimer = new(2000);
 
         public override void OnInitializeMelon()
         {
