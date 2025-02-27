@@ -82,7 +82,15 @@ namespace Trashbin.Actions
             // remove from DB
             SynthsFinder sf_instance = SynthsFinder.s_instance;
             string mainDirPath = FileUtil.GetSynthRidersUcDir();
+            string synthDbPath = Path.Combine(mainDirPath, "SynthDB");
             MelonLogger.Msg(mainDirPath);
+
+            if (!File.Exists(synthDbPath))
+            {
+                MelonLogger.Error($"SynthDB not found at path '{synthDbPath}'!");
+                return;
+            }
+
             Type typeSF = typeof(SynthsFinder);
 
             string imageFilePath = "";
