@@ -6,6 +6,7 @@ using Il2CppNewtonsoft.Json;
 using Il2CppSynth.SongSelection;
 using Il2CppTMPro;
 using System.Timers;
+using SRModCore;
 
 namespace Trashbin.Actions
 {
@@ -80,7 +81,7 @@ namespace Trashbin.Actions
 
             // remove from DB
             SynthsFinder sf_instance = SynthsFinder.s_instance;
-            string mainDirPath = Application.dataPath + "/../";
+            string mainDirPath = FileUtil.GetSynthRidersUcDir();
             MelonLogger.Msg(mainDirPath);
             Type typeSF = typeof(SynthsFinder);
 
