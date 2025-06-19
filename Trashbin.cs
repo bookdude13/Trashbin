@@ -60,7 +60,8 @@ namespace Trashbin
             Transform deleteIcon = deleteButton.transform.Find("Outer Background/Inner Background/Icon");
             var iconSprite = UnityUtil.CreateSpriteFromAssemblyResource(logger, Assembly.GetExecutingAssembly(), "Trashbin.Resources.bin.png");
             iconSprite.name = "bt-X";
-            deleteIcon.GetComponent<Image>().sprite = iconSprite;
+            var iconImage = deleteIcon.GetComponent<Image>();
+            iconImage.sprite = iconSprite;
 
             // Adjust position of button
             Game_InfoProvider gipInstance = Game_InfoProvider.s_instance;
@@ -92,6 +93,9 @@ namespace Trashbin
             // TODO set up fake localization for tooltip. 
             //buttonUIToggle.SetText("Delete current song");
             buttonUIToggle.TooltipLocalizationKey = string.Empty;
+            
+            // Stop button from starting big (which was going away once initially hovered)
+            buttonUIToggle.OnHexButtonExit();
 
             logger.Msg("Button added");
 
