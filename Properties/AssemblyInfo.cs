@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: MelonInfo(typeof(Trashbin.Trashbin), "Trashbin", "2.1.1", "Moinn+bookdude13")]
+[assembly: MelonInfo(typeof(Trashbin.Trashbin), "Trashbin", "2.2.0", "Moinn+bookdude13")]
 #if QUEST
 [assembly: MelonGame("kluge", "SynthRiders")]
 #else

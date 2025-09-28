@@ -50,14 +50,14 @@ namespace Trashbin
 
             // Initialise new button
             GameObject songSelection = GameObject.Find("Z-Wrap/SongSelection");
-            Transform controls = songSelection.transform.Find("SelectionSongPanel/CentralPanel/Song Selection/VisibleWrap/Canvas/DetailsPanel(Right)/Sectional BG - Details/Controls-Buttons");
-            Transform blacklistButton = controls.Find("Blacklist");
+            Transform controls = UnityUtil.ValidatedFind(Instance.logger, songSelection?.transform, "SelectionSongPanel/CentralPanel/Song Selection/VisibleWrap/Canvas/DetailsPanel(Right)/Sectional BG - Details/Controls-Buttons");
+            Transform blacklistButton = UnityUtil.ValidatedFind(Instance.logger, controls, "Blacklist");
             GameObject deleteButton = GameObject.Instantiate(blacklistButton.gameObject);
             deleteButton.transform.name = "DeleteSongButton";
             deleteButton.transform.SetParent(controls);
 
             // Change button icon
-            Transform deleteIcon = deleteButton.transform.Find("Outer Background/Inner Background/Icon");
+            Transform deleteIcon = UnityUtil.ValidatedFind(Instance.logger, deleteButton.transform, "Icon");
             var iconSprite = UnityUtil.CreateSpriteFromAssemblyResource(logger, Assembly.GetExecutingAssembly(), "Trashbin.Resources.bin.png");
             iconSprite.name = "bt-X";
             var iconImage = deleteIcon.GetComponent<Image>();
@@ -80,12 +80,18 @@ namespace Trashbin
             }
 
             // Crunch the spectrograph in the song select panel to make room for the button
-            var spectrum = controls.Find("Visualizer Scale Wrap").GetComponent<RectTransform>();
-            spectrum.sizeDelta -= new Vector2(1f, 0f);
+            logger.Msg("Resizing spetrograph");
+            var spectrum = UnityUtil.ValidatedFind(Instance.logger, controls.transform, "Visualizer Scale Wrap");
+            var spectumRect = spectrum.GetComponent<RectTransform>();
+            spectumRect.sizeDelta -= new Vector2(1f, 0f);
 
             // Add event to button
-            var buttonUIToggle = deleteButton.gameObject.GetComponent<HexagonIconButton>();
+            logger.Msg("Adding button");
+            //var buttonUIToggle = deleteButton.gameObject.GetComponent<HexagonIconButton>();
+            //buttonUIToggle.WhenClicked = new UnityEvent();
+            var buttonUIToggle = deleteButton.gameObject.GetComponent<SynthUIButton>();
             buttonUIToggle.WhenClicked = new UnityEvent();
+
             deleteButton.SetActive(true);
 
             buttonUIToggle.WhenClicked.AddListener((UnityAction)Delete.VerifyDelete);
@@ -93,9 +99,10 @@ namespace Trashbin
             // TODO set up fake localization for tooltip. 
             //buttonUIToggle.SetText("Delete current song");
             buttonUIToggle.TooltipLocalizationKey = string.Empty;
-            
+
             // Stop button from starting big (which was going away once initially hovered)
-            buttonUIToggle.OnHexButtonExit();
+            //buttonUIToggle.OnHexButtonExit();
+            //buttonUIToggle.OnPointerExit();
 
             logger.Msg("Button added");
 
@@ -107,13 +114,26 @@ namespace Trashbin
         {
             try
             {
-                SongSelectionManager ssmInstance = SongSelectionManager.GetInstance;
-                GameObject TwoButtonsPromptWrap = ssmInstance.TwoButtonsPromptWrap;
+                SongSelectionManager? ssmInstance = SongSelectionManager.GetInstance;
+                if (ssmInstance == null)
+                {
+                    logger.Error("Null SSM instance, can't add events");
+                    return;
+                }
 
-                Transform continueBtnT = TwoButtonsPromptWrap.transform.Find("continue button");
-                Component[] components = continueBtnT.GetComponents<Component>();
+                GameObject? TwoButtonsPromptWrap = ssmInstance.TwoButtonsPromptWrap;
+                if (TwoButtonsPromptWrap == null || TwoButtonsPromptWrap.transform == null)
+                {
+                    logger.Error("Null two buttons wrap");
+                    return;
+                }
 
-                var SynthButton = continueBtnT.gameObject.GetComponent<SynthUIButton>();
+                // Note to future self - returning an explicit transform here fails for some reason, but not elsewhere
+                logger.Msg("Finding continue button");
+                var continueBtnT = TwoButtonsPromptWrap.transform.Find("continue button");
+
+                logger.Msg("Changing button to delete song");
+                var SynthButton = UnityUtil.ValidatedGetComponent<SynthUIButton>(Instance.logger, continueBtnT?.gameObject)!;
                 SynthButton.WhenClicked = new();
                 SynthButton.WhenClicked.AddListener((UnityAction)Delete.DeleteSong);
             }
