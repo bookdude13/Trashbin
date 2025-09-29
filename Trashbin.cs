@@ -66,17 +66,20 @@ namespace Trashbin
             // Adjust position of button
             Game_InfoProvider gipInstance = Game_InfoProvider.s_instance;
             TwitchAuthSettings twitchAS = gipInstance.twitchAuth;
-            deleteButton.transform.localScale = new Vector3(0.7f, 0.7f, 1);
+            deleteButton.transform.localScale = new Vector3(1f, 1f, 1f);
             deleteButton.transform.localRotation = new Quaternion(0, 0, 0, 1);
+
+            // Use fav button as valid offset for position
+            var favButton = SongSelectionManager.GetInstance.favoriteBtn.transform;
 
             // check if Twitch panel is enabled
             if (twitchAS.Channel != "")
             {
-                deleteButton.transform.localPosition = new Vector3(-0.3f, 4.2102f, 0);
+                deleteButton.transform.localPosition = new Vector3(favButton.localPosition.x + 1.5f, favButton.localPosition.y, 0);
             }
             else //if twitch credentials not setup take same position as blacklist button
             {
-                deleteButton.transform.localPosition = new Vector3(-0.8f, 4.2102f, 0);
+                deleteButton.transform.localPosition = new Vector3(favButton.localPosition.x + 1.0f, favButton.localPosition.y, 0);
             }
 
             // Crunch the spectrograph in the song select panel to make room for the button
@@ -87,8 +90,6 @@ namespace Trashbin
 
             // Add event to button
             logger.Msg("Adding button");
-            //var buttonUIToggle = deleteButton.gameObject.GetComponent<HexagonIconButton>();
-            //buttonUIToggle.WhenClicked = new UnityEvent();
             var buttonUIToggle = deleteButton.gameObject.GetComponent<SynthUIButton>();
             buttonUIToggle.WhenClicked = new UnityEvent();
 
@@ -99,10 +100,6 @@ namespace Trashbin
             // TODO set up fake localization for tooltip. 
             //buttonUIToggle.SetText("Delete current song");
             buttonUIToggle.TooltipLocalizationKey = string.Empty;
-
-            // Stop button from starting big (which was going away once initially hovered)
-            //buttonUIToggle.OnHexButtonExit();
-            //buttonUIToggle.OnPointerExit();
 
             logger.Msg("Button added");
 
